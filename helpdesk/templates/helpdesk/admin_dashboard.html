@@ -1,0 +1,49 @@
+{% extends 'helpdesk/base.html' %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+    <h2 class="mb-4">All Tickets (Admin Panel)</h2>
+
+    {% if tickets %}
+        <table class="table table-bordered table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>User</th>
+                    <th>Subject</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                    <th>Change Status</th>
+                    <th>Created At</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ticket in tickets %}
+                <tr>
+                    <td>{{ ticket.user.username }}</td>
+                    <td>{{ ticket.subject }}</td>
+                    <td>{{ ticket.description }}</td>
+                    <td>{{ ticket.status }}</td>
+                    <td>
+                        <form method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="ticket_id" value="{{ ticket.id }}">
+                            <select name="status" class="form-select form-select-sm">
+                                <option value="Open" {% if ticket.status == 'Open' %}selected{% endif %}>Open</option>
+                                <option value="In Progress" {% if ticket.status == 'In Progress' %}selected{% endif %}>In Progress</option>
+                                <option value="Resolved" {% if ticket.status == 'Resolved' %}selected{% endif %}>Resolved</option>
+                            </select>
+                            <button type="submit" class="btn btn-sm btn-primary mt-1">Update</button>
+                        </form>
+                    </td>
+                    <td>{{ ticket.created_at }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No tickets found.</p>
+    {% endif %}
+
+    <a href="/" class="btn btn-secondary">Back to Home</a>
+{% endblock %}
