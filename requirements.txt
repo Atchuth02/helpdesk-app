@@ -1,4 +1,5 @@
-pip install gunicorn
-pip install whitenoise
-pip install dj-database-url
-pip install psycopg2-binary
+Django>=4.0
+gunicorn
+whitenoise
+dj-database-url
+psycopg2-binary
