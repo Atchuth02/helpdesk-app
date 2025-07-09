@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Dashboard</title>
+</head>
+<body>
+    {% extends 'helpdesk/base.html' %}
+
+    {% block title %}My Tickets{% endblock %}
+
+    {% block content %}
+        <h2 class="mb-4">Your Support Tickets</h2>
+
+        {% if tickets %}
+            <div class="list-group">
+                {% for ticket in tickets %}
+                    <div class="list-group-item">
+                        <h5>{{ ticket.subject }}</h5>
+                        <p>{{ ticket.description }}</p>
+                        <span class="badge bg-warning text-dark">{{ ticket.status }}</span>
+                        <small class="text-muted float-end">Created: {{ ticket.created_at }}</small>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No tickets found.</p>
+        {% endif %}
+
+        <a href="/create-ticket/" class="btn btn-primary mt-3">Create New Ticket</a>
+        <a href="/" class="btn btn-secondary mt-2">Back to Home</a>
+    {% endblock %}
+
+</body>
+</html>
